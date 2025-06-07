@@ -1,4 +1,5 @@
 from langchain_openai import ChatOpenAI
+from agents.music_catalog.tools import music_tools
 
 def get_llm(model_name: str = "meta-llama/Llama-3.3-70B-Instruct") -> ChatOpenAI:
     """
@@ -11,3 +12,14 @@ def get_llm(model_name: str = "meta-llama/Llama-3.3-70B-Instruct") -> ChatOpenAI
         ChatOpenAI: An instance of ChatOpenAI configured with the specified model.
     """
     return ChatOpenAI(model=model_name, temperature=0.0)
+
+def get_llm_bind(llm: ChatOpenAI) -> None:
+    """
+    Binds the provided LLM to the global context.
+    
+    This function sets the global LLM to the provided instance, allowing it to be used throughout the application.
+    
+    Args:
+        llm (ChatOpenAI): The ChatOpenAI instance to bind.
+    """
+    return llm.bind(music_tools)
