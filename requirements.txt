@@ -1,0 +1,13 @@
+python-dotenv
+langchain-community
+langchain-core
+langchain-openai
+langchain-experimental
+langchain-together
+langsmith
+langgraph
+langgraph-cli
+langgraph-sdk
+langgraph-checkpoint-sqlite
+scikit-learn
+openai
