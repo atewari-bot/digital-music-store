@@ -11,3 +11,5 @@ langgraph-sdk
 langgraph-checkpoint-sqlite
 scikit-learn
 openai
+nest_asyncio
+IPython
