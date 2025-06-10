@@ -1,6 +1,7 @@
 from langchain_core.tools import tool
 from da.db import get_chinook_db
 import ast
+import logging
 
 @tool
 def get_albums_by_artist(artist: str) -> str:
@@ -52,7 +53,7 @@ def get_tracks_by_artist(artist: str) -> str:
     return result
 
 @tool
-def get_songs_by_genre(genre: str) -> str:
+def get_songs_by_genre(genre: str) -> list:
     """
     Returns a list of songs by the specified genre.
     
@@ -97,17 +98,19 @@ def get_songs_by_genre(genre: str) -> str:
         return f"No songs found for genre '{genre}'"
     
     formatted_songs = ast.literal_eval(songs)
+    print(f"Found {len(formatted_songs)} songs for genre '{genre}'")
+    print(f"Songs: {formatted_songs}")
     return [
         {
-            "Song": song["SongName"],
-            "Artist": song["ArtistName"]
+            "Song": str(song["SongName"]),
+            "Artist": str(song["ArtistName"])
         } for song in formatted_songs
     ]
 
 @tool
 def check_for_songs(song_title: str) -> str:
     """
-    Checks if a song exists in the catalog.
+    Returns a list of songs by the specified genre.
     
     Args:
         song_title (str): The title of the song to check.

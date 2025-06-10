@@ -1,11 +1,12 @@
 python-dotenv
-langchain-community
-langchain-core
-langchain-openai
+langchain-community==0.3.0
+langchain==0.3.20
+langchain-core==0.3.63
+langchain-openai==0.3.19
 langchain-experimental
 langchain-together
-langsmith
-langgraph
+langsmith==0.1.147
+langgraph==0.3.10
 langgraph-cli
 langgraph-sdk
 langgraph-checkpoint-sqlite
@@ -13,3 +14,4 @@ scikit-learn
 openai
 nest_asyncio
 IPython
+typing_extensions

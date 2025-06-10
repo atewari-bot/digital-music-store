@@ -10,6 +10,6 @@ def get_music_tool() -> ToolNode:
     Returns:
         ToolNode: An instance of ToolNode configured for music operations.
     """
-    tool_node = ToolNode(music_tools)
+    tool_node = ToolNode(music_tools.get_muscic_tools())
 
     return tool_node

@@ -2,6 +2,7 @@ from da.state import State
 from langchain_core.messages import ToolMessage, HumanMessage, SystemMessage
 from langchain_core.runnables import RunnableConfig
 import utils.llm as llm_utils
+import logging
 
 
 def generate_music_assistant_prompt(memory: str = "None") -> str:
@@ -61,14 +62,20 @@ def music_assistant(state: State, config: RunnableConfig):
     Returns:
         SystemMessage: A system message that provides context and instructions for the music assistant.
     """
-    memory = state.loaded_memory if state.loaded_memory else "None"
+    memory = state['loaded_memory'] if 'loaded_memory' in state else "None"
 
     music_assistant_prompt = generate_music_assistant_prompt(memory)
-    llm_with_music_tools = llm_utils.get_llm_bind(llm_utils.get_llm())
+    llm_with_music_tools = llm_utils.get_llm_bind(llm_utils.get_llm(model_name="gpt-4o"))
 
     response = llm_with_music_tools.invoke(
-        [SystemMessage(content=music_assistant_prompt)] + state.messages)
+        [SystemMessage(content=music_assistant_prompt)] + state['messages'])
     
+
+    response = llm_with_music_tools.invoke(
+        [SystemMessage(content=music_assistant_prompt)] + state['messages'])
+    
+    logging.debug("Response from LLM: %s", response)
+
     return {'messages': [response]}
 
  

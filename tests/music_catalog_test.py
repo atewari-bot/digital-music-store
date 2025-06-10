@@ -1,6 +1,7 @@
 import uuid
 import sys
 import os
+import logging
 from agents.music_catalog.music_catalog_agent import get_music_assistant_orchestration
 from langchain_core.messages import HumanMessage
 
@@ -15,16 +16,9 @@ def test_music_catalog_agent():
     thread_id = uuid.uuid4()
     question = "I like the Rolling Stones. What songs do you recommend by them or by other artists that I might like?"
     config = {"configurable": {"thread_id": thread_id}}
-
+    logging.debug(f"Testing music catalog agent with thread_id: {thread_id} and question: {question}")
+    # Invoke the music assistant orchestration with the question
     result = get_music_assistant_orchestration().invoke({"messages": [HumanMessage(content=question)]}, config=config)
-    print(result)
+    logging.debug(result)
     for message in result['messages']:
       message.pretty_print()
-
-def __main__():
-    """
-    Main function to run the test.
-    
-    This function is the entry point for running the music catalog agent test.
-    """
-    test_music_catalog_agent()

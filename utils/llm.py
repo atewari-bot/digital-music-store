@@ -1,5 +1,6 @@
 from langchain_openai import ChatOpenAI
 from agents.music_catalog.tools import music_tools
+import logging
 
 def get_llm(model_name: str = "meta-llama/Llama-3.3-70B-Instruct") -> ChatOpenAI:
     """
@@ -22,4 +23,5 @@ def get_llm_bind(llm: ChatOpenAI) -> None:
     Args:
         llm (ChatOpenAI): The ChatOpenAI instance to bind.
     """
-    return llm.bind(music_tools)
+    logging.info("Binding LLM to music tools.")
+    return llm.bind_tools(music_tools.get_muscic_tools())
