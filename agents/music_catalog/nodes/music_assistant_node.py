@@ -65,7 +65,8 @@ def music_assistant(state: State, config: RunnableConfig):
     memory = state['loaded_memory'] if 'loaded_memory' in state else "None"
 
     music_assistant_prompt = generate_music_assistant_prompt(memory)
-    llm_with_music_tools = llm_utils.get_llm_bind(llm_utils.get_llm(model_name="gpt-4o"))
+    # llm_with_music_tools = llm_utils.get_llm_bind(llm_utils.get_llm(model_name="gpt-4o"))
+    llm_with_music_tools = llm_utils.get_llm_bind(llm_utils.get_llm())
 
     response = llm_with_music_tools.invoke(
         [SystemMessage(content=music_assistant_prompt)] + state['messages'])

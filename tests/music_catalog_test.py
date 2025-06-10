@@ -2,7 +2,7 @@ import uuid
 import sys
 import os
 import logging
-from agents.music_catalog.music_catalog_agent import get_music_assistant_orchestration
+from agents.music_catalog.music_catalog_agent import get_music_assistant_orchestration, show_music_catalog_subagent_graph
 from langchain_core.messages import HumanMessage
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -19,6 +19,8 @@ def test_music_catalog_agent():
     logging.debug(f"Testing music catalog agent with thread_id: {thread_id} and question: {question}")
     # Invoke the music assistant orchestration with the question
     result = get_music_assistant_orchestration().invoke({"messages": [HumanMessage(content=question)]}, config=config)
-    logging.debug(result)
+    # logging.debug(result)
     for message in result['messages']:
       message.pretty_print()
+
+    show_music_catalog_subagent_graph()

@@ -15,3 +15,4 @@ openai
 nest_asyncio
 IPython
 typing_extensions
+pyppeteer
