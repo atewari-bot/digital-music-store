@@ -131,7 +131,7 @@ def check_for_songs(song_title: str) -> str:
     
     return result
 
-def get_muscic_tools():
+def get_music_tools():
     """
     Returns a list of music-related tools.
     

@@ -2,7 +2,7 @@ import uuid
 import sys
 import os
 import logging
-from agents.music_catalog.music_catalog_agent import get_music_assistant_orchestration, show_music_catalog_subagent_graph
+from agents.music_catalog.music_catalog_agent import get_music_assistant_orchestration
 from langchain_core.messages import HumanMessage
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -22,5 +22,3 @@ def test_music_catalog_agent():
     # logging.debug(result)
     for message in result['messages']:
       message.pretty_print()
-
-    show_music_catalog_subagent_graph()

@@ -1,7 +1,7 @@
 from langgraph.prebuilt import ToolNode
 from agents.music_catalog.tools import music_tools
 
-def get_music_tool() -> ToolNode:
+def get_music_tool_node() -> ToolNode:
     """
     Returns a ToolNode instance for music-related operations.
     
@@ -10,6 +10,6 @@ def get_music_tool() -> ToolNode:
     Returns:
         ToolNode: An instance of ToolNode configured for music operations.
     """
-    tool_node = ToolNode(music_tools.get_muscic_tools())
+    tool_node = ToolNode(music_tools.get_music_tools())
 
     return tool_node

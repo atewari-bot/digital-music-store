@@ -24,4 +24,4 @@ def get_llm_bind(llm: ChatOpenAI) -> None:
         llm (ChatOpenAI): The ChatOpenAI instance to bind.
     """
     logging.info("Binding LLM to music tools.")
-    return llm.bind_tools(music_tools.get_muscic_tools())
+    return llm.bind_tools(music_tools.get_music_tools())

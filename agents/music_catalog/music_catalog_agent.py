@@ -1,6 +1,6 @@
 from agents.music_catalog.edge.music_assistant_tool_edge import should_continue
 from agents.music_catalog.nodes.music_assistant_node import music_assistant
-from agents.music_catalog.nodes.music_tool import get_music_tool
+from agents.music_catalog.nodes.music_tool_node import get_music_tool_node
 from da.memory import get_checkpointer, get_in_memory_store
 from da.state import State
 from langgraph.graph import StateGraph, START, END
@@ -23,7 +23,7 @@ def get_music_assistant_orchestration():
     music_workflow = StateGraph(State)
 
     music_workflow.add_node('music_assistant', music_assistant)
-    music_workflow.add_node('music_tool_node', get_music_tool())
+    music_workflow.add_node('music_tool_node', get_music_tool_node())
 
     music_workflow.add_edge(START, 'music_assistant')
 
