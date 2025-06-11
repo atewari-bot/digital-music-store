@@ -14,7 +14,7 @@ def get_llm(model_name: str = "meta-llama/Llama-3.3-70B-Instruct") -> ChatOpenAI
     """
     return ChatOpenAI(model=model_name, temperature=0.0)
 
-def get_llm_bind(llm: ChatOpenAI) -> None:
+def get_llm_bind(llm: ChatOpenAI):
     """
     Binds the provided LLM to the global context.
     
@@ -22,6 +22,9 @@ def get_llm_bind(llm: ChatOpenAI) -> None:
     
     Args:
         llm (ChatOpenAI): The ChatOpenAI instance to bind.
+    
+    Returns:
+        ChatOpenAI: The bound ChatOpenAI instance.
     """
     logging.info("Binding LLM to music tools.")
     return llm.bind_tools(music_tools.get_music_tools())
