@@ -1,10 +1,12 @@
 import sys
 import os
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import logging
 from invoice_info_test import test_invoice_info_agent
 from music_catalog_test import test_music_catalog_agent
 from utils.env import load_environment_variables
+from digital_store_test import test_digital_store_agent
 
 
 if __name__ == '__main__':
@@ -19,6 +21,7 @@ if __name__ == '__main__':
         load_environment_variables()
         test_music_catalog_agent()
         test_invoice_info_agent()
+        test_digital_store_agent()
     except Exception as e:
         logging.error("An error occurred: %s", e)
         logging.debug("Traceback: ", exc_info=True)
