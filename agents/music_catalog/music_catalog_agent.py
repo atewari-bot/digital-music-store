@@ -7,7 +7,7 @@ from langgraph.graph import StateGraph, START, END
 from utils.agent_graph_display import show_graph
 
 
-def get_music_assistant_orchestration():
+def get_music_assistant_agent():
     """
     Orchestrates the music assistant workflow.
     
@@ -49,4 +49,4 @@ def show_music_catalog_subagent_graph():
     
     This function generates and displays the graph representation of the music catalog subagent workflow.
     """
-    show_graph(get_music_assistant_orchestration(), "Music Catalog Subagent Workflow")
+    show_graph(get_music_assistant_agent(), "Music Catalog Subagent Workflow")

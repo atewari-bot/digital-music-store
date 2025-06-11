@@ -48,7 +48,7 @@ def get_invoice_agent():
     Returns:
         Runnable: A runnable that provides context and instructions for the invoice agent.
     """
-    agent = create_react_agent(
+    invoice_information_subagent = create_react_agent(
         llm_utils.get_llm(),
         tools=get_invoice_tools(),
         prompt=get_invoice_agent_prompt(),
@@ -58,7 +58,7 @@ def get_invoice_agent():
         store=get_in_memory_store()
     )
     logging.info("Created invoice info agent with tools: %s", get_invoice_tools())
-    return agent
+    return invoice_information_subagent
 
 def show_invoice_info_subagent_graph():
     """
