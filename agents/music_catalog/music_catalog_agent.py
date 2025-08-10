@@ -1,6 +1,6 @@
-from agents.music_catalog.edge.music_assistant_tool_edge import should_continue
-from agents.music_catalog.nodes.music_assistant_node import music_assistant
-from agents.music_catalog.nodes.music_tool_node import get_music_tool_node
+from agents.music_catalog.edge.music_assistant_tool import should_continue
+from agents.music_catalog.nodes.music_assistant import music_assistant
+from agents.music_catalog.nodes.music_tool import get_music_tool_node
 from da.memory import get_checkpointer, get_in_memory_store
 from da.state import State
 from langgraph.graph import StateGraph, START, END

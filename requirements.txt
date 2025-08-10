@@ -6,10 +6,10 @@ langchain-openai==0.3.19
 langchain-experimental
 langchain-together
 langsmith==0.1.147
-langgraph==0.4.8
+langgraph==0.6.4
 langgraph-sdk
 langgraph-checkpoint-sqlite
-langgraph-supervisor
+langgraph-supervisor==0.0.29
 langgraph-cli[inmem]
 scikit-learn
 openai
@@ -18,3 +18,4 @@ IPython
 typing_extensions
 pyppeteer
 pydantic
+pytest
