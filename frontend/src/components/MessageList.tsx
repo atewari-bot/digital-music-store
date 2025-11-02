@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import type { ChatMessage } from '../types';
 import Message from './Message';
 import LoadingIndicator from './LoadingIndicator';
