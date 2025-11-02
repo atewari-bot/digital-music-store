@@ -2,6 +2,7 @@ from da.state import State
 from langchain_core.messages import SystemMessage
 from langchain_core.runnables import RunnableConfig
 import utils.llm as llm_utils
+from da.memory_utils import save_user_preferences, extract_preferences_from_messages
 import logging
 
 
@@ -62,18 +63,23 @@ def music_assistant(state: State, config: RunnableConfig):
     Returns:
         SystemMessage: A system message that provides context and instructions for the music assistant.
     """
-    memory = state['loaded_memory'] if 'loaded_memory' in state else "None"
+    memory = state.get('loaded_memory', "None")
+    customer_id = state.get('customer_id', "")
+
+    # Extract and save preferences if detected in messages
+    if customer_id and customer_id != "":
+        extracted_prefs = extract_preferences_from_messages(state.get('messages', []))
+        if extracted_prefs and extracted_prefs != "None":
+            save_user_preferences(customer_id, extracted_prefs, config)
+            # Update memory if new preferences were found
+            if memory == "None" or memory == "":
+                memory = extracted_prefs
 
     music_assistant_prompt = generate_music_assistant_prompt(memory)
-    # llm_with_music_tools = llm_utils.get_llm_bind(llm_utils.get_llm(model_name="gpt-4o"))
     llm_with_music_tools = llm_utils.get_llm_bind(llm_utils.get_llm())
 
     response = llm_with_music_tools.invoke(
-        [SystemMessage(content=music_assistant_prompt)] + state['messages'])
-    
-
-    response = llm_with_music_tools.invoke(
-        [SystemMessage(content=music_assistant_prompt)] + state['messages'])
+        [SystemMessage(content=music_assistant_prompt)] + state.get('messages', []))
     
     logging.debug("Response from LLM: %s", response)
 
