@@ -60,16 +60,28 @@ npm install
 ```
 
 4. **Set up environment variables:**
-Create a `.env` file in the root directory:
 ```bash
-OPENAI_API_KEY=your_openai_api_key
-# or
-TOGETHER_API_KEY=your_together_api_key
+# Copy the example env file
+cp .env.example .env
+
+# Edit .env and add your API key(s)
+# You need at least one of:
+# - OPENAI_API_KEY (for OpenAI models like GPT-3.5, GPT-4)
+# - TOGETHER_API_KEY (for Together AI models like Llama)
+```
+
+Example `.env` file:
+```bash
+# Option 1: Use OpenAI (recommended)
+OPENAI_API_KEY=sk-your-openai-api-key-here
+
+# Option 2: Use Together AI (for Llama models)
+# TOGETHER_API_KEY=your_together_api_key_here
 
 # Optional: LangSmith for monitoring
-LANGSMITH_API_KEY=your_langsmith_api_key
-LANGCHAIN_TRACING_V2=true
-LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
+# LANGSMITH_API_KEY=your_langsmith_api_key
+# LANGCHAIN_TRACING_V2=true
+# LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ```
 
 Create a `.env` file in the `frontend` directory (optional):
@@ -230,10 +242,20 @@ What songs do you recommend by them or by other artists that I might like?"
 
 ### LLM Model
 
-The default model is configured in `utils/llm.py`. By default, it uses:
-- `meta-llama/Llama-3.3-70B-Instruct` (via Together AI)
+The system supports both OpenAI and Together AI models. The default behavior:
 
-To use a different model, modify `utils/llm.py` or set the model name in your code.
+1. **If `TOGETHER_API_KEY` is set**: Uses `meta-llama/Llama-3.3-70B-Instruct` (Together AI)
+2. **If `OPENAI_API_KEY` is set**: Uses `gpt-3.5-turbo` (OpenAI)
+3. **If both are set**: Prioritizes Together AI for models with "/" in the name, otherwise uses OpenAI
+
+To use a different model, you can:
+- Set the model via environment variable (coming soon)
+- Modify `utils/llm.py` to change the default
+- Pass a model name directly when calling `get_llm()`
+
+**Getting API Keys:**
+- **OpenAI**: Sign up at https://platform.openai.com/ and get your API key
+- **Together AI**: Sign up at https://together.ai/ and get your API key
 
 ### Memory Storage
 
@@ -274,10 +296,17 @@ The Chinook database is loaded in-memory from a remote URL. If loading fails:
 
 ### LLM API Errors
 
-If you see LLM API errors:
-- Verify your API key is set in `.env`
+**Error: "The api_key client option must be set"**
+- Make sure you have created a `.env` file in the root directory
+- Add at least one API key: `OPENAI_API_KEY` or `TOGETHER_API_KEY`
+- Run `cp .env.example .env` to create the file from the template
+- Restart the server after adding API keys
+
+**Other LLM API errors:**
+- Verify your API key is set in `.env` and is valid
 - Check API rate limits and quotas
 - Ensure the model name is correct for your provider
+- For Together AI: Make sure `langchain-together` is installed
 
 ## References
 

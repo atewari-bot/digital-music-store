@@ -6,7 +6,7 @@ to save and load user preferences and other long-term memory data.
 """
 from typing import Optional
 from langchain_core.runnables import RunnableConfig
-from da.memory import get_in_memory_store
+from da.memory import get_preferences_store
 import logging
 
 
@@ -25,8 +25,10 @@ def load_user_preferences(customer_id: str, config: Optional[RunnableConfig] = N
         return "None"
     
     try:
-        store = get_in_memory_store()
+        store = get_preferences_store()
         key = f"customer_preferences:{customer_id}"
+        
+        # Simple dict access
         result = store.get(key)
         
         if result:
@@ -56,9 +58,11 @@ def save_user_preferences(customer_id: str, preferences: str, config: Optional[R
         return False
     
     try:
-        store = get_in_memory_store()
+        store = get_preferences_store()
         key = f"customer_preferences:{customer_id}"
-        store.put(key, preferences)
+        
+        # Simple dict assignment
+        store[key] = preferences
         logging.debug(f"Saved preferences for customer {customer_id}: {preferences}")
         return True
     except Exception as e:
