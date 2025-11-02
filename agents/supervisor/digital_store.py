@@ -1,7 +1,7 @@
 from agents.invoice_info.invoice_info_agent import get_invoice_agent
 from agents.music_catalog.music_catalog_agent import get_music_assistant_agent
 from da.memory import get_checkpointer, get_in_memory_store
-from langgraph_supervisor import create_supervisor
+from agents.supervisor.supervisor_utils import create_supervisor
 from utils.agent_graph_display import show_graph
 import utils.llm as llm_utils
 from da.state import State
@@ -42,14 +42,20 @@ def get_digital_store_agent():
     Returns:
         Runnable: A runnable that provides context and instructions for the digital store agent.
     """
+    # Get sub-agents
+    music_agent = get_music_assistant_agent()
+    invoice_agent = get_invoice_agent()
+    
+    # Create supervisor workflow
     supervisor_agent_workflow = create_supervisor(
-        agents=[get_music_assistant_agent(), get_invoice_agent()],
-        output_mode="last_message",
+        agents=[music_agent, invoice_agent],
         model=llm_utils.get_llm(),
         prompt=get_digital_store_agent_prompt(), 
-        state_schema=State
+        state_schema=State,
+        output_mode="last_message"
     )
 
+    # Compile the graph
     supervisor_agent = supervisor_agent_workflow.compile(
         name="digital_store_agent",
         checkpointer=get_checkpointer(),

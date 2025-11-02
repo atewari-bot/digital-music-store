@@ -23,6 +23,7 @@ The system consists of:
 ### Prerequisites
 
 - Python 3.8+
+- Node.js 18+ and npm (for frontend)
 - API keys for your LLM provider (OpenAI, Together AI, etc.)
 
 ### Installation
@@ -33,18 +34,32 @@ git clone <repository-url>
 cd digital-music-store
 ```
 
-2. Create a virtual environment:
+2. **Backend Setup:**
 ```bash
+# Option 1: Use the setup script (recommended)
+./setup.sh
+
+# Option 2: Manual setup
+# Create a virtual environment
 python3 -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
 
-3. Install dependencies:
-```bash
+# Install Python dependencies
 pip install -r requirements.txt
 ```
 
-4. Set up environment variables:
+**Important**: Always activate the virtual environment before running the backend:
+```bash
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+
+3. **Frontend Setup:**
+```bash
+cd frontend
+npm install
+```
+
+4. **Set up environment variables:**
 Create a `.env` file in the root directory:
 ```bash
 OPENAI_API_KEY=your_openai_api_key
@@ -57,7 +72,40 @@ LANGCHAIN_TRACING_V2=true
 LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ```
 
+Create a `.env` file in the `frontend` directory (optional):
+```bash
+VITE_API_URL=http://localhost:8000
+```
+
 ## Usage
+
+### Web Interface (Recommended)
+
+The easiest way to interact with the agent is through the web interface:
+
+1. **Start the backend API server:**
+```bash
+# Make sure your virtual environment is activated first!
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Then start the server
+python3 api/server.py
+
+# Or use the convenience script:
+./start_backend.sh
+```
+
+2. **Start the frontend development server:**
+```bash
+# In another terminal
+cd frontend
+npm install  # First time only
+npm run dev
+```
+
+3. **Open your browser:**
+   - Navigate to `http://localhost:3000`
+   - Start chatting with the AI agent!
 
 ### Running Examples
 
@@ -117,11 +165,20 @@ digital-music-store/
 │   ├── music_catalog/        # Music catalog agent, nodes, edges, and tools
 │   ├── supervisor/           # Supervisor agent that orchestrates sub-agents
 │   └── user/                 # User input handling
+├── api/                      # Backend API
+│   └── server.py             # FastAPI server exposing agent as REST API
 ├── da/                       # Data access layer
 │   ├── db.py                 # Database connection (Chinook)
 │   ├── memory.py             # Memory management (checkpointer and store)
 │   ├── memory_utils.py       # User preference save/load utilities
 │   └── state.py              # State schema definition
+├── frontend/                 # React + TypeScript frontend
+│   ├── src/
+│   │   ├── components/       # React components
+│   │   ├── api/              # API client
+│   │   └── types.ts          # TypeScript type definitions
+│   ├── package.json          # Frontend dependencies
+│   └── vite.config.ts        # Vite configuration
 ├── tests/                    # Test files
 ├── utils/                    # Utility functions
 │   ├── agent_graph_display.py    # Graph visualization
@@ -129,7 +186,7 @@ digital-music-store/
 │   ├── env.py                # Environment variable loading
 │   ├── llm.py                # LLM configuration
 │   └── state_utils.py        # State initialization utilities
-├── main.py                   # Main entry point
+├── main.py                   # Main entry point (CLI)
 ├── requirements.txt          # Python dependencies
 └── README.md                 # This file
 ```
