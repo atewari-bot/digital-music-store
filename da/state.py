@@ -3,7 +3,7 @@ from typing import Annotated
 from langgraph.graph.message import AnyMessage, add_messages
 from langgraph.managed.is_last_step import RemainingSteps
 
-class State(TypedDict):
+class State(TypedDict, total=False):
     """
     Represents the state of a LangGraph agent.
 
@@ -22,3 +22,6 @@ class State(TypedDict):
 
     # loaded_memory: Stores information loaded from long-term memory like user preferences, historical context
     loaded_memory: str
+    
+    # next_agent: Used by supervisor to route to the next agent
+    next_agent: str
