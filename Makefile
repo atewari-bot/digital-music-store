@@ -56,3 +56,34 @@ run:
 	@echo "Running the application..."
 	$(PYTHON_EXECUTABLE) -c "from utils.env import load_environment_variables; load_environment_variables()"
 	$(PYTHON_EXECUTABLE) -m src.main
+
+.PHONY: docker-build
+docker-build:
+	@echo "Building Docker images..."
+	docker-compose build
+
+.PHONY: docker-up
+docker-up:
+	@echo "Starting Docker containers..."
+	docker-compose up -d
+
+.PHONY: docker-down
+docker-down:
+	@echo "Stopping Docker containers..."
+	docker-compose down
+
+.PHONY: docker-logs
+docker-logs:
+	@echo "Viewing Docker logs..."
+	docker-compose logs -f
+
+.PHONY: docker-dev
+docker-dev:
+	@echo "Starting Docker containers in development mode..."
+	docker-compose -f docker-compose.dev.yml up --build
+
+.PHONY: docker-clean
+docker-clean:
+	@echo "Cleaning up Docker containers and volumes..."
+	docker-compose down -v
+	docker system prune -f

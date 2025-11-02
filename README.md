@@ -22,13 +22,41 @@ The system consists of:
 
 ### Prerequisites
 
+**Option 1: Docker (Recommended)**
+- Docker and Docker Compose
+- API keys for your LLM provider (OpenAI, Together AI, etc.)
+
+**Option 2: Manual Setup**
 - Python 3.8+
 - Node.js 18+ and npm (for frontend)
 - API keys for your LLM provider (OpenAI, Together AI, etc.)
 
 ### Installation
 
-1. Clone the repository:
+#### Option 1: Docker (Recommended)
+
+1. **Clone the repository:**
+```bash
+git clone <repository-url>
+cd digital-music-store
+```
+
+2. **Create `.env` file:**
+```bash
+cp .env.example .env
+# Edit .env and add your API key(s)
+```
+
+3. **Start with Docker:**
+```bash
+docker-compose up --build
+```
+
+That's it! The application will be available at `http://localhost:3000`
+
+#### Option 2: Manual Setup
+
+1. **Clone the repository:**
 ```bash
 git clone <repository-url>
 cd digital-music-store
@@ -91,7 +119,41 @@ VITE_API_URL=http://localhost:8000
 
 ## Usage
 
-### Web Interface (Recommended)
+### Docker (Recommended - Easiest Setup)
+
+The easiest way to run the entire application is using Docker:
+
+1. **Create `.env` file:**
+```bash
+cp .env.example .env
+# Edit .env and add your API keys
+```
+
+2. **Start all services:**
+```bash
+docker-compose up --build
+```
+
+3. **Open your browser:**
+   - Navigate to `http://localhost:3000`
+   - Start chatting with the AI agent!
+
+**Useful Docker commands:**
+```bash
+# Start in background
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+
+# Rebuild after code changes
+docker-compose up --build
+```
+
+### Web Interface (Manual Setup)
 
 The easiest way to interact with the agent is through the web interface:
 
@@ -279,11 +341,59 @@ Both use in-memory storage by default. For production, consider persistent stora
 2. Add tools to agent's tool list
 3. Tools will be automatically available to the agent
 
+## Docker Commands
+
+### Production Mode
+```bash
+# Build and start
+docker-compose up --build
+
+# Start in background
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+### Development Mode (with hot reload)
+```bash
+# Start with hot reload
+docker-compose -f docker-compose.dev.yml up --build
+
+# View logs
+docker-compose -f docker-compose.dev.yml logs -f
+```
+
+### Docker Tips
+- First build may take several minutes as it downloads dependencies
+- Changes to code in development mode will automatically reload
+- To rebuild after dependency changes: `docker-compose up --build --force-recreate`
+- To clean up containers and volumes: `docker-compose down -v`
+
 ## Troubleshooting
+
+### Docker Issues
+
+**Port already in use:**
+- Change ports in `docker-compose.yml` if 8000 or 3000 are already in use
+- Use `docker ps` to check running containers
+
+**Container won't start:**
+- Check logs: `docker-compose logs backend` or `docker-compose logs frontend`
+- Ensure `.env` file exists with API keys
+- Try rebuilding: `docker-compose up --build --force-recreate`
+
+**API connection errors in frontend:**
+- Check backend is running: `docker-compose ps`
+- Verify API URL in frontend environment variables
+- Check backend logs for errors: `docker-compose logs backend`
 
 ### Import Errors
 
-If you encounter import errors, ensure:
+If you encounter import errors (manual setup):
 - Virtual environment is activated
 - All dependencies are installed: `pip install -r requirements.txt`
 - Python path includes the project root
