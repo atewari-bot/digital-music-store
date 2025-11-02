@@ -21,9 +21,10 @@ def get_albums_by_artist(artist: str) -> str:
         # Execute the query to get albums by the artist from Album and Artist tables
         # `db.run` is a utility from LangChain to execute SQL queries
         # `include_columns=True` indicates that the result should include column names
+        # Note: Album table has Title column, not Name
         result = get_chinook_db().run(
             f"""
-            SELECT Album.Title, Album.Name
+            SELECT Album.Title, Artist.Name as ArtistName
             FROM Album
             JOIN Artist ON Album.ArtistId = Artist.ArtistId
             WHERE Artist.Name like '%{artist}%'

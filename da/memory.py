@@ -1,9 +1,11 @@
 from langgraph.checkpoint.memory import MemorySaver # For short-term memory
 from langgraph.store.memory import InMemoryStore # For long-term memory
+from typing import Dict, Any
 
 # Shared instances to ensure all agents use the same store
 _checkpointer = None
 _store = None
+_preferences_store: Dict[str, Any] = {}  # Simple dict for user preferences
 
 def get_checkpointer() -> MemorySaver:
     """
@@ -34,3 +36,15 @@ def get_in_memory_store() -> InMemoryStore:
     if _store is None:
         _store = InMemoryStore()
     return _store
+
+def get_preferences_store() -> Dict[str, Any]:
+    """
+    Returns a simple dictionary for storing user preferences.
+    
+    This is a simple in-memory dict used for user preferences, separate from LangGraph's store.
+    
+    Returns:
+        Dict: A shared dictionary for user preferences.
+    """
+    global _preferences_store
+    return _preferences_store
